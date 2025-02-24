@@ -10,7 +10,8 @@ const api={
         hubs:"/hubs",
         feed:"",
         comment:"/comment",
-        answers:"/answers"
+        answers:"/answers",
+        find:"/find"
     },
     hubs:{
         url:base.concat("hubs"),
@@ -55,6 +56,7 @@ const api={
     },
     image:{
         url:base.concat("image"),
+        search:"/search"
     },
     authors:{
         url:base.concat("authors"),

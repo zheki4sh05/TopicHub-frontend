@@ -10,6 +10,7 @@ import {memo} from 'react'
 import LanguageSelect from "../../../features/Language/ui/LanguageSelect";
 import { useTranslation } from "react-i18next";
 import LogoutBtn from "../../../features/Logout/ui/LogoutBtn";
+import SearchSimpleBox from "../../../features/Search/ui/SearchSimpleBox";
 const Header  = memo(function Header() {
   const location = useLocation();
   const {t} = useTranslation()
@@ -24,7 +25,9 @@ const Header  = memo(function Header() {
 
     if(names.includes(path)){
       return  <SearchBox />
-    }else{
+    }else if(path==PathConstants.POSTS){
+      return <SearchSimpleBox/>
+    }else {
       return <></>
     }
   }
@@ -59,6 +62,15 @@ const Header  = memo(function Header() {
                 TopicHub
               </Typography>
             </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={{ pathname: PathConstants.POSTS }}
+            >
+              <Typography style={{ color: "white", textDecoration: "underline", marginLeft:"30px" }} >
+                Посты
+              </Typography>
+            </Link>
+            
           </Box>
         </Grid2>
         <Grid2 size={4}>

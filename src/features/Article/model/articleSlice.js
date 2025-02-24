@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import DomainNames from "../../../app/store/DomainNames";
 import { addBookmark, checkReactions, removeBookmark, subscribe, unsubscribe } from "../../../pages/ArticleView/api/requests";
 import { complaintArticle } from "../../../shared/Complaint/api/requests";
+import { findArticle } from "../api/requests";
 
 
 //----state---
@@ -9,6 +10,7 @@ const initialState = {
   article:{},
   reaction:{},
   status: "idle",
+  findStatus:'idle',
   subscriptionStatus:'idle',
   bookmarkStatus:'idle',
   complaintStatus:'idle',
@@ -127,8 +129,22 @@ const articleSlice = createSlice({
     .addCase(complaintArticle.rejected, (state, action) => {
       state.complaintStatus = "failed";
       state.error = action.error.message;
-    });
+    })
   // //----------------------------------------
+      //--поиск  статьи по id-------------
+      .addCase(findArticle.pending, (state, action) => {
+        state.findStatus = "loading";
+      })
+      .addCase(findArticle.fulfilled, (state, action) => {
+        state.article = "succeeded";
+        state.error = null
+      })
+      .addCase(findArticle.rejected, (state, action) => {
+        state.findStatus = "failed";
+        state.error = action.error.message;
+      });
+    // //----------------------------------------
+
 
     
    

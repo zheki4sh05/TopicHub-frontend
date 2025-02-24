@@ -14,6 +14,7 @@ import ManageComments from './../pages/ManageComments/api/ManageComments';
 import ManageHubs from "../pages/ManageHubs/ui/ManageHubs";
 import CreateArticle from "../pages/Sandbox/ui/CreateArticle";
 import EditArticle from "../pages/Sandbox/ui/EditArticle";
+import Posts from "../pages/Posts/ui/Posts";
 
 
 
@@ -77,9 +78,14 @@ function App() {
           element:<EditArticle/>,
         },
         {
+          path:PathConstants.POSTS,
+          element:<Posts/>
+        },
+        {
           path: "*",
           element: <Page404 />,
         },
+       
 
      
       ],

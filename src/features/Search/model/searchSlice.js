@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DomainNames from "../../../app/store/DomainNames";
-import { searchRequest } from "../api/request";
+import { searchImageRequest, searchRequest } from "../api/request";
 
 
 //----state---
@@ -9,10 +9,24 @@ const initialState = {
 
 
   },
+  images:{
+    items:[{
+      id:"1",
+      filename:"картинка",
+      name:"картинка",
+      uploadDate:"11245235",
+      imageSize:4523454,
+      contentType:"jpeg",
+      targetId:"targetId"
+    }]
+  },
   options:{
     theme:"",
     author:"",
     keywords:""
+  },
+  image:{
+    name:"",
   },
   target:"",
   status: "idle",
@@ -40,9 +54,13 @@ const searchSlice = createSlice({
     },
 
     setSearchOptions(state,action){
-      
         state.options=action.payload
+    },
+    setImageSearchOptions(state,action){
+      state.image = action.payload
     }
+    
+  
   },
   extraReducers(builder) {
     builder
@@ -60,6 +78,20 @@ const searchSlice = createSlice({
         state.error = action.error.message;
       })
     //----------------------------------------
+     //---поиск картинок-------------
+     .addCase(searchImageRequest.pending, (state, action) => {
+      state.status = "loading";
+    })
+    .addCase(searchImageRequest.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.images = action.payload
+      state.error=null
+    })
+    .addCase(searchImageRequest.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    })
+  //----------------------------------------
       
   },
 });
@@ -68,10 +100,17 @@ const searchSlice = createSlice({
 export function getSearchResult(state) {
   return state[DomainNames.search].result;
 }
+export function getSearchImageResult(state) {
+  return state[DomainNames.search].images;
+}
 
 export function getSearchOptions(state) {
     return state[DomainNames.search].options;
   }
+
+export function getSearchImageOptions(state){
+  return state[DomainNames.search].image;
+}
   
 export function getSearchStatus(state) {
   return state[DomainNames.search].status;
@@ -79,6 +118,7 @@ export function getSearchStatus(state) {
 export function getSearchState(state) {
     return state[DomainNames.search].options.length ==0 && state[DomainNames.search].author.length==0 && state[DomainNames.search].keywords.length==0;
   }
-export const { cleareSearch,setSearchOptions } = searchSlice.actions;
+
+export const { cleareSearch,setSearchOptions,setImageSearchOptions } = searchSlice.actions;
 
 export default searchSlice.reducer;

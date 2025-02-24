@@ -13,5 +13,6 @@ export const PathConstants = {
     PROFILE_ARTICLE:"/profile/article",
     SEARCH:"/search",
     EDIT:"/article/edit",
-    ADMIN_PANEL:"http://"+BACKEND_HOST+"/auth"
+    ADMIN_PANEL:"http://"+BACKEND_HOST+"/auth",
+    POSTS:"/posts"
 }
