@@ -1,25 +1,32 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { resetSandBox } from "../../../features/Sanbox/model/sandboxSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {getSandboxId, isHeaderPresent, isPresent, resetSandBox } from "../../../features/Sanbox/model/sandboxSlice";
 import ConfirmModal from "../../../shared/ConfirmModal/ui/ConfirmModal";
+import { clearTemplate } from "../api/request";
+
 
 function CreateArticleHeader() {
 
     const [open,setOpen] = useState(false)
     const dispatch = useDispatch()
+     const isSandboxPresent = useSelector(isPresent)
+     const headerPresent =  useSelector(isHeaderPresent)
+     const articleId = useSelector(getSandboxId)
   const handleClear = () => {
 
     setOpen(true)
-
+ 
   };
     const handlerAgree=()=>{
         dispatch(resetSandBox())
+        dispatch(clearTemplate({
+          articleId:articleId
+        }))
         setOpen(false)
     }
     const handlerDisagree=()=>{
         setOpen(false)
-
     }
   return (
     <>
@@ -36,6 +43,7 @@ function CreateArticleHeader() {
           variant="outlined"
           color="error"
           onClick={handleClear}
+          disabled={!isSandboxPresent && !headerPresent}
         >
           Сбросить
         </Button>

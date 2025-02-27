@@ -7,22 +7,26 @@ import ParagraphEdit from "./components/ParagraphEdit";
 import ListEdit from "./components/ListEdit";
 import ImageEdit from "./components/ImageEdit";
 import ChapterEdit from "./components/ChapterEdit";
+import ImageUploadEdit from "./components/ImageUploadEdit";
 
 function ArticleSanbox() {
   const list = useSelector(getSandboxList);
   const getItemByType = (item) => {
     switch (item.type) {
       case "paragraph": {
-        return <ParagraphEdit item={item} key={item.id} />;
+        return <ParagraphEdit item={item} key={item.created} />;
       }
       case "list": {
-        return <ListEdit list={item} key={item.id} />;
+        return <ListEdit list={item} key={item.created} />;
       }
       case "img": {
-        return <ImageEdit item={item} key={item.id} />;
+        return <ImageEdit item={item} key={item.created} />;
       }
       case "chapter": {
-        return <ChapterEdit item={item} key={item.id} />;
+        return <ChapterEdit item={item} key={item.created} />;
+      }
+      case "img_upload":{
+        return <ImageUploadEdit item={item} key={item.created}/>
       }
     }
   };

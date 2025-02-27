@@ -14,9 +14,11 @@ import {
   getArticle,
   getArticleStatus,
   getBookmarksStatus,
+  getFindStatus,
   getReactions,
   getSubscriptionStatus,
   manageBookmarkStatus,
+  manageFindStatus,
   manageSubscriptionStatus,
   setArticle,
 } from "../../../features/Article/model/articleSlice";
@@ -52,6 +54,8 @@ function ArticleView() {
   const auth = useSelector(isAuth)
   const subscribeStatus = useSelector(getSubscriptionStatus);
   const bookmarStatus = useSelector(getBookmarksStatus);
+  const articleStatus = useSelector(getFindStatus)
+  const navigate  = useNavigate()
   const {t} = useTranslation()
   
 
@@ -74,13 +78,15 @@ function ArticleView() {
     if (subscribeStatus == statusTypes.succeeded) {
       dispatch(manageSubscriptionStatus(statusTypes.idle));
     }
-  }, [subscribeStatus]);
-
-  useEffect(() => {
     if (bookmarStatus == statusTypes.succeeded) {
       dispatch(manageBookmarkStatus(statusTypes.idle));
     }
-  }, [bookmarStatus]);
+    if(articleStatus==statusTypes.succeeded){
+      dispatch(manageFindStatus(statusTypes.idle))
+    }
+  }, [subscribeStatus, bookmarStatus, articleStatus]);
+
+
 
   const handleSubscribe = (action) => {
     if (action == 1) {
@@ -134,11 +140,11 @@ function ArticleView() {
             width: "100%",
           }}
         >
-          <Link to={PathConstants.ARTICLE}>
-            <Typography variant="body1" style={{ textDecoration: "underline" }}>
+          <Button to={PathConstants.ARTICLE} variant="body1" style={{ textDecoration: "underline" }} onClick={()=>navigate(-1)}>
+            
               {t('btn_back')}
-            </Typography>
-          </Link>
+          
+          </Button>
         </Box>
       </MenuWrapper>
 
@@ -187,6 +193,7 @@ function ArticleView() {
                       variant="outlined"
                       color="success"
                       onClick={() => handleSubscribe(1)}
+                      disabled={!auth}
                     >
                          {t('btn_subscribe')}
                     </Button>

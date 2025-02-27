@@ -3,7 +3,7 @@ import SearchBox from "../../../features/Search/ui/SearchBox";
 import { Link, useLocation } from "react-router";
 import UserSettings from "./../../../widgets/userSettings/ui/UserSettings";
 import { PathConstants } from "./../../../app/pathConstants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser, isAuth } from "../../../pages/Profile/model/userSlice";
 import statusTypes from "../../../app/util/statusTypes";
 import {memo} from 'react'
@@ -11,10 +11,11 @@ import LanguageSelect from "../../../features/Language/ui/LanguageSelect";
 import { useTranslation } from "react-i18next";
 import LogoutBtn from "../../../features/Logout/ui/LogoutBtn";
 import SearchSimpleBox from "../../../features/Search/ui/SearchSimpleBox";
+import { createTemplate } from "../../api/request";
 const Header  = memo(function Header() {
   const location = useLocation();
   const {t} = useTranslation()
-
+  const dispatch = useDispatch()
   const user = useSelector(getUser);
 
   const auth = useSelector(isAuth)
@@ -30,6 +31,10 @@ const Header  = memo(function Header() {
     }else {
       return <></>
     }
+  }
+
+  const handleCreateSandbox=()=>{
+    dispatch(createTemplate())
   }
 
   return (
@@ -129,6 +134,7 @@ const Header  = memo(function Header() {
             <Typography
               variant="subtitle1"
               style={{ color: "white", textDecoration: "underline" }}
+              onClick={handleCreateSandbox}
             >
               {t('link_create_theme')}
             </Typography>

@@ -11,7 +11,6 @@ function KeyWords() {
   const [error, setError] = useState({ show: false, message: "" });
   const dispatch = useDispatch()
   const handleDelete = (e,item) => {
-    
     dispatch(setKeywords([...list.filter(i=>i.name!=item.name)]))
   };
 

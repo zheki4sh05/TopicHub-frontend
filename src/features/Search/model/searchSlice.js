@@ -10,15 +10,7 @@ const initialState = {
 
   },
   images:{
-    items:[{
-      id:"1",
-      filename:"картинка",
-      name:"картинка",
-      uploadDate:"11245235",
-      imageSize:4523454,
-      contentType:"jpeg",
-      targetId:"targetId"
-    }]
+    items:[]
   },
   options:{
     theme:"",
@@ -48,6 +40,8 @@ const searchSlice = createSlice({
             author:"",
             keyWords:""
           }
+        state.images={items:[]}
+        state.image={name:""}
         state.status="idle"
         state.error=null
 

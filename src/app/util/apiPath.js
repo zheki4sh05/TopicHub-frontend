@@ -30,8 +30,14 @@ const api={
     },
     sandbox:{
         url :base.concat("sandbox"),
-        create:"",
-        update:""
+        find:"/find",
+        create:"/template",
+        part:"/part",
+        clear:"/template",
+        preview:"/preview",
+        img:"/image",
+        update:"/update",
+        publish:""
     },
     search:{
         url :base.concat("search"),

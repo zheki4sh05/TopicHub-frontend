@@ -1,25 +1,25 @@
 import {
+  Box,
   Button,
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Stack,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router";
-import { PathConstants } from "../../../app/pathConstants";
-import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 function PostCard({ image, handleShow }) {
      const { t } = useTranslation();
   const handleNavigate = () => {
     handleShow(image.targetId);
-  };
+  }
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} src={""} title={image.filename} />
+    <Card sx={{ maxWidth: 345,marginBottom: "10px", marginLeft:"10px" }}>
+      <Box sx={{ height: 160, overflow:"hidden", objectFit:"cover" }}>
+        <img style={{width:"100%", height:"100%"}} src={`http://localhost:8080/api/v1/image?id=${image.id}`} alt={image.filename} />
+        </Box>
+    
       <CardContent>
         <Typography gutterBottom variant="body1" component="div">
           {image.filename}

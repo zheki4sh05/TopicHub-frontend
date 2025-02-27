@@ -2,22 +2,25 @@ import { Box, Grid2, IconButton, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import EditIcon from "@mui/icons-material/Edit";
-import { delItem, saveItem } from "../../model/sandboxSlice";
-import { useDispatch } from "react-redux";
+import { delItem, getSandboxId, saveItem } from "../../model/sandboxSlice";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmModal from "../../../../shared/ConfirmModal/ui/ConfirmModal";
 import { useTranslation } from "react-i18next";
+import { createArticlepart, deleteArticlePart } from "../../api/requests";
 function ImageEdit({ item }) {
   const dispatch = useDispatch();
-  const [save, setSave] = useState(false);
-
+  const [save, setSave] = useState(item.value.length>0);
+  const id = useSelector(getSandboxId)
   const [open, setOpen] = useState(false);
   const [state, setState] = useState(item.value);
   const { t } = useTranslation();
   const handleSave = () => {
-    dispatch(saveItem({ ...item, value: state }));
-
-    setSave(true);
+       const part = { ...item, value: state }
+       
+       // dispatch(saveItem(part));
+       setSave(true);
+       dispatch(createArticlepart(part))
   };
   const handleEdit = () => {
     setSave(false);
@@ -35,8 +38,12 @@ function ImageEdit({ item }) {
     }
   };
 
-  const handlerAgree = (id) => {
+  const handlerAgree = () => {
     dispatch(delItem({ created: item.created }));
+     dispatch(deleteArticlePart({
+          articleId:id,
+          partId:item.uuid
+        }))
   };
   const handlerDisagree = () => {
     setOpen(false);

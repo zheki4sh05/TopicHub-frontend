@@ -40,6 +40,9 @@ const articleSlice = createSlice({
       manageComplaintStatus(state,action){
         state.complaintStatus = action.payload
       },
+      manageFindStatus(state,action){
+        state.findStatus = action.payload
+      }
    
   },
   extraReducers(builder) {
@@ -136,7 +139,8 @@ const articleSlice = createSlice({
         state.findStatus = "loading";
       })
       .addCase(findArticle.fulfilled, (state, action) => {
-        state.article = "succeeded";
+        state.article = action.payload;
+        state.findStatus = "succeeded";
         state.error = null
       })
       .addCase(findArticle.rejected, (state, action) => {
@@ -159,8 +163,9 @@ export function getArticle(state) {
 export function getArticleStatus(state) {
   return state[DomainNames.article].status;
 }
-
-
+export function getFindStatus(state){
+  return state[DomainNames.article].findStatus;
+}
 export function getSubscriptionStatus(state) {
   return state[DomainNames.article].subscriptionStatus;
 }
@@ -173,6 +178,12 @@ export function getComplaintStatus(state) {
 export function getReactions(state) {
   return state[DomainNames.article].reaction;
 }
-export const { setArticle,manageBookmarkStatus,manageSubscriptionStatus,controlArticleStatus,manageComplaintStatus } = articleSlice.actions;
+export const { setArticle,
+  manageBookmarkStatus,
+  manageSubscriptionStatus,
+  controlArticleStatus,
+  manageComplaintStatus,
+  manageFindStatus
+} = articleSlice.actions;
 
 export default articleSlice.reducer;

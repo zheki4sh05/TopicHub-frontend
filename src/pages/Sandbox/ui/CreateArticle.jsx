@@ -6,9 +6,9 @@ import { createArticle } from "../../../features/Sanbox/api/requests";
 function CreateArticle() {
   const auth = useSelector(isAuth);
   const dispatch = useDispatch()
-  const saveHandler=({theme, keyWords,list, hub })=>{
+  const saveHandler=({id,theme, keyWords,list, hub })=>{
     dispatch(
-      createArticle({theme, keyWords,list, hub })
+      createArticle({id,theme, keyWords,list, hub })
     );
   }
   return (

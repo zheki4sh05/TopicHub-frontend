@@ -3,7 +3,6 @@ import { useState } from "react";
 
 function MainSelect({ title, list, handleChange, defaultValue,reset=false, size="small" }) {
     const [state,setState]=useState(defaultValue)
-
     const onChange=(event)=>{
       setState(event.target.value)
       handleChange(event.target.value)

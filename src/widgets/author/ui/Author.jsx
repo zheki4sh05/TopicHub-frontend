@@ -19,7 +19,7 @@ function Author({ user, edit = false, size = 100 }) {
   const handleGetImage = async () => {
     try {
       const response = await axios.get(
-        api.image.url.concat(addParams({ id: user.id })),
+        api.image.url.concat(addParams({ id: user.logoId })),
         getRequestImageConfig()
       );
 
@@ -37,7 +37,7 @@ function Author({ user, edit = false, size = 100 }) {
     event.preventDefault();
     const formData = new FormData();
     formData.append("file", imageData);
-
+    console.log()
     try {
       const response = await axios.post(
         api.profile.url,
@@ -57,6 +57,8 @@ function Author({ user, edit = false, size = 100 }) {
     if (file) {
       setImageData(file);
     }
+  
+ 
   };
 
   const setUser=(event)=>{

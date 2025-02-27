@@ -8,9 +8,12 @@ import MenuWrapper from '../../../widgets/menu/ui/MenuWrapper';
 import CreateArticleHeader from '../../../widgets/createArticleHeader/ui/CreateArticleHeader';
 import ArticleSanbox from './ArticleSanbox';
 import { useTranslation } from 'react-i18next';
+import ArticlePreview from "./components/ArticlePreview";
+
 
 function SandboxContainer({auth, actionHandler}) {
   const navigate = useNavigate();
+ 
   const {t} = useTranslation()
     return (    
 <Box
@@ -32,11 +35,16 @@ function SandboxContainer({auth, actionHandler}) {
               <ArticleTheme/>
             </MenuWrapper>
           </Box>
-
+         
           <Box sx={{ width: "820px", margin: "0 auto" }}>
             <MenuWrapper>
               <KeyWords />
             </MenuWrapper>
+          </Box>
+          <Box sx={{ width: "820px", margin: "0 auto" }}>
+          <MenuWrapper>
+            <ArticlePreview/>
+          </MenuWrapper>
           </Box>
 
           <Box sx={{ width: "820px", margin: "0 auto" }}>

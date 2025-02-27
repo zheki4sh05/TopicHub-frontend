@@ -1,12 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DomainNames from "../../../app/store/DomainNames";
-import { createArticle } from "../api/requests";
+import { createArticle, createArticlepart, deleteArticlePart, deletePreview, findPreview } from "../api/requests";
+import { createTemplate } from "../../../processes/api/request";
+import KeyWords from './../../../entities/article/ui/KeyWords';
 //----state---
 const initialState = {
   id:"",
   theme:"",
   hub:null,
   keywords:[],
+  previewId:"",
+  metaData:{
+    metaName:""
+  },
   list: [],
   components: [
     {
@@ -40,10 +46,21 @@ const initialState = {
       name: "Изображение",
       type: "img",
        value:""
-     
     },
+    {
+      id: 5,
+      name: "Загрузить изображение",
+      type: "img_upload",
+       value:""
+    }
   ],
+  preview:{
+    imageName:"",
+    url:""
+  },
   status: "idle",
+  previewStatus:'idle',
+  templateStatus:'idle',
   error: null,
 };
 //-------------
@@ -61,10 +78,11 @@ const sandboxSlice = createSlice({
     },
     saveItem(state, action) {
 
-      const { created, value } = action.payload
+      const { created, value,uuid } = action.payload
       const existing = state.list.find(item => item.created === created)
       if (existing) {
         existing.value = value
+        existing.uuid = uuid
       }else{
         state.list.push(action.payload);
       }
@@ -84,12 +102,16 @@ const sandboxSlice = createSlice({
       const { created } = action.payload
       state.list = state.list.filter(item=>item.created!==created)
     },
+    setPreviewId(state,action){
+      state.previewId = action.payload.id
+    },
     resetSandBox(state,action){
       state.theme=""
       state.keywords=[]
       state.list = []
       state.status='idle'
       state.error=null
+      state.hub = 0
 
       
     },
@@ -107,8 +129,92 @@ const sandboxSlice = createSlice({
       .addCase(createArticle.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      });
+      })
     //----------------------------------------
+     //---создание шаблона статьи-------------
+     .addCase(createTemplate.pending, (state, action) => {
+      state.templateStatus = "loading";
+    })
+    .addCase(createTemplate.fulfilled, (state, action) => {
+      state.templateStatus = "succeeded";
+      state.id = action.payload.id
+      state.theme = action.payload.theme
+      state.hub = action.payload.hub
+      state.previewId = action.payload.previewId
+      state.keywords = action.payload.keyWords.map(item=>{ return {id:new Date().getTime(), name:item}})
+      if(action.payload.list!=null){
+        state.list = action.payload.list
+      } else{
+        state.list=[]
+      }
+    })
+    .addCase(createTemplate.rejected, (state, action) => {
+      state.templateStatus = "failed";
+      state.error = action.error.message;
+    })
+  //----------------------------------------
+       //---удаление части статьи-------------
+       .addCase(deleteArticlePart.pending, (state, action) => {
+        state.templateStatus = "loading";
+      })
+      .addCase(deleteArticlePart.fulfilled, (state, action) => {
+        state.templateStatus = "succeeded";
+        const { created } = action.payload
+        state.list = state.list.filter(item=>item.created!==created)
+      })
+      .addCase(deleteArticlePart.rejected, (state, action) => {
+        state.templateStatus = "failed";
+        state.error = action.error.message;
+      })
+    //----------------------------------------
+       //---создание части статьи-------------
+       .addCase(createArticlepart.pending, (state, action) => {
+        state.templateStatus = "loading";
+      })
+      .addCase(createArticlepart.fulfilled, (state, action) => {
+        state.templateStatus = "succeeded";
+        const { created, value, uuid } = action.payload
+        const existing = state.list.find(item => item.created === created)
+        if (existing) {
+          existing.uuid = uuid
+          existing.value = value
+        }else{
+          state.list.push(action.payload);
+        }
+      })
+      .addCase(createArticlepart.rejected, (state, action) => {
+        state.templateStatus = "failed";
+        state.error = action.error.message;
+      })
+    //----------------------------------------
+    //--------запрос мета информации-----------
+    .addCase(findPreview.pending, (state, action) => {
+      state.templateStatus = "loading";
+    })
+    .addCase(findPreview.fulfilled, (state, action) => {
+      state.templateStatus = "succeeded";
+      state.metaData = action.payload
+    })
+    .addCase(findPreview.rejected, (state, action) => {
+      state.templateStatus = "failed";
+      state.error = action.error.message;
+    })
+    //-------------------------------------------
+        //--------удаление preview-----------
+        .addCase(deletePreview.pending, (state, action) => {
+          state.previewStatus = "loading";
+        })
+        .addCase(deletePreview.fulfilled, (state, action) => {
+          state.previewStatus = "succeeded";
+          state.metaData = {metaName:""}
+          state.previewId = ""
+        })
+        .addCase(deletePreview.rejected, (state, action) => {
+          state.previewStatus = "failed";
+          state.error = action.error.message;
+        });
+        //-------------------------------------------
+
   },
 });
 
@@ -133,11 +239,24 @@ export function getSandboxComponents(state) {
   export function getTheme(state) {
     return state[DomainNames.sandbox].theme;
   }
-
-  export function isEmpty(state) {
-    return state[DomainNames.sandbox].theme.trim().length!=0 && state[DomainNames.sandbox].list.length!=0 && state[DomainNames.sandbox].list[0].value.length!=0 && state[DomainNames.sandbox].hub!=null;
+  export function getTemplateStatus(state) {
+    return state[DomainNames.sandbox].templateStatus;
+  }
+  export function getPreviewId(state){
+    return state[DomainNames.sandbox].previewId;
+  }
+  export function getMetaData(state){
+    return state[DomainNames.sandbox].metaData;
   }
 
-export const { saveItem,delItem,saveTheme,setKeywords,resetSandBox,setHub, saveAllItems,setId } = sandboxSlice.actions;
+  export function isHeaderPresent(state){
+    return state[DomainNames.sandbox].theme.trim().length>0 && state[DomainNames.sandbox].hub!=null
+  }
+
+  export function isPresent(state) {
+    return isHeaderPresent(state) && state[DomainNames.sandbox].list.length!=0 && state[DomainNames.sandbox].list[0].value.length!=0;
+  }
+
+export const { saveItem,delItem,saveTheme,setKeywords,resetSandBox,setHub, saveAllItems,setId,setPreviewId } = sandboxSlice.actions;
 
 export default sandboxSlice.reducer;

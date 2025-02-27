@@ -10,7 +10,7 @@ function MenuWrapper({ children}) {
         height:"auto",
         display:"flex",
         alignItems:"center",
-        padding:"15px 20px",
+        padding:"10px 10px",
         borderRadius:"5px",
         boxSizing:"border-box",
         width:"100%"
