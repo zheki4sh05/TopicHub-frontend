@@ -6,7 +6,7 @@ import ConfirmModal from "../../../shared/ConfirmModal/ui/ConfirmModal";
 import { clearTemplate } from "../api/request";
 
 
-function CreateArticleHeader() {
+function CreateArticleHeader({title}) {
 
     const [open,setOpen] = useState(false)
     const dispatch = useDispatch()
@@ -37,7 +37,7 @@ function CreateArticleHeader() {
           width: "100%",
         }}
       >
-        <Typography variant="h6">Создание статьи</Typography>
+        <Typography variant="h6">{title}</Typography>
         <Button
           size="small"
           variant="outlined"

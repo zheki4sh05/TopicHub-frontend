@@ -10,12 +10,20 @@ import {
   setId,
 } from "../../../features/Sanbox/model/sandboxSlice";
 import SandboxContainer from "../../../features/Sanbox/ui/SandboxContainer";
-import { updateArticle } from "../../../features/Sanbox/api/requests";
+import { createArticle, updateArticle } from "../../../features/Sanbox/api/requests";
+import { editArticle } from "../api/requests";
 function EditArticle() {
   const auth = useSelector(isAuth);
   const article = useSelector(getArticle);
   const dispatch = useDispatch();
 
+  useEffect(()=>{
+      dispatch(editArticle({
+        id:article.id,
+        state:"",
+        page:0
+      }))
+  },[])
 
   useEffect(()=>{
     
@@ -30,10 +38,12 @@ function EditArticle() {
   },[article,dispatch ])
 
   const handleSave = ({id, theme, keyWords, list, hub }) => {
-    dispatch(updateArticle({id, theme, keyWords, list, hub }));
+    dispatch(
+      createArticle({id:id,theme, keyWords,list, hub })
+    );
   };
 
-  return <SandboxContainer actionHandler={handleSave} auth={auth} />;
+  return <SandboxContainer title={"Редактирование статьи"} actionHandler={handleSave} auth={auth} />;
 }
 
 export default EditArticle;

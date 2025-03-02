@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import ArticlePreview from "./components/ArticlePreview";
 
 
-function SandboxContainer({auth, actionHandler}) {
+function SandboxContainer({auth, actionHandler, title}) {
   const navigate = useNavigate();
  
   const {t} = useTranslation()
@@ -27,8 +27,9 @@ function SandboxContainer({auth, actionHandler}) {
     >
       {auth ? (
         <>
+  
           <MenuWrapper>
-            <CreateArticleHeader />
+            <CreateArticleHeader title={title}/>
           </MenuWrapper>
           <Box sx={{ width: "820px", margin: "0 auto" }}>
             <MenuWrapper>

@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import MenuWrapper from "../../../widgets/menu/ui/MenuWrapper";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getActiveUser,
@@ -18,6 +18,7 @@ import { fetchAuthorArticles, fetchUserArticles } from "./../api/requests";
 import statusTypes from "../../../app/util/statusTypes";
 import { getFeed, getFeedStatus } from "../../Article/model/feedSlice";
 import { useTranslation } from "react-i18next";
+import SelectArticleStatus from "../../../features/ArticleSelect/ui/SelectArticleStatus";
 
 function UserArticles({ edit }) {
   const articles = useSelector(getFeed);
@@ -27,12 +28,14 @@ function UserArticles({ edit }) {
   const currentUser = useSelector(getUser);
   const auth = useSelector(isAuth);
   const {t} = useTranslation()
-  const makeRequest = (page) => {
+  const [statusArticle, setArticleStatus] = useState(statusTypes.publish)
+  const makeRequest = (page,status) => {
     if (edit) {
       dispatch(
         fetchUserArticles({
           page: page,
           type: "articles",
+          status:status
         })
       );
     } else {
@@ -50,21 +53,63 @@ function UserArticles({ edit }) {
   };
 
   const handlePageChange = (event, page) => {
-    makeRequest(page);
+    makeRequest(page, statusArticle);
   };
 
   useEffect(() => {
-    makeRequest(1);
+    makeRequest(1, statusTypes.publish);
   }, []);
+
+  const reload=()=>{
+    makeRequest(1,statusArticle)
+  }
+
+  const changeArticleStatus=(value)=>{
+    setArticleStatus(value)
+    makeRequest(1,value)
+  }
+
+  const getEmptyMsg=(status)=>{
+
+    let msg;
+      switch(status){
+        case statusTypes.moderation:{
+          msg =t('txt_warning_articles_mod')
+          break;
+        }
+        case statusTypes.publish:{
+            msg =t('txt_warning_articles')
+            break;
+        }
+        case statusTypes.edit:{
+          msg =t('txt_warning_articles_edit')
+          break;
+        }
+        default:{
+          msg =t('txt_warning_articles')
+          break;
+        }
+      }
+      return (
+        <Typography>
+           {msg}
+          </Typography>
+      )
+  }
 
   return (
     <>
+    <SelectArticleStatus
+    
+    handleChangeValue={changeArticleStatus}
+          />
       {articles.items.length > 0 ? (
         <Stack direction={"column"}>
+          
           <ArticlesList
             status={status}
             batch={articles}
-            makeRequest={makeRequest}
+            makeRequest={reload}
             edit={true}
           />
 
@@ -89,13 +134,20 @@ function UserArticles({ edit }) {
         </Stack>
       ) : status == statusTypes.loading ? (
         <LinearProgress />
-      ) : (
-        <>
-          <Typography>
-           {t('txt_warning_articles')}
-          </Typography>
-        </>
-      )}
+      ) : 
+      // (
+      //   <>
+      //     {
+            
+      //     }
+      //     <Typography>
+      //      {t('txt_warning_articles')}
+      //     </Typography>
+      //   </>
+      // )
+      getEmptyMsg(statusArticle)
+      
+      }
     </>
   );
 }

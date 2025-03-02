@@ -19,6 +19,7 @@ function MainSelect({ title, list, handleChange, defaultValue,reset=false, size=
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
           value={state}
+          defaultValue={defaultValue}
           label="Хаб"
           onChange={onChange}
           sx={{width:"100%"}}

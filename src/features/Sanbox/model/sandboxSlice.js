@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DomainNames from "../../../app/store/DomainNames";
-import { createArticle, createArticlepart, deleteArticlePart, deletePreview, findPreview } from "../api/requests";
+import { createArticle, createArticlepart, deleteArticlePart, deleteArticlePartImage, deletePreview, findPreview } from "../api/requests";
 import { createTemplate } from "../../../processes/api/request";
 import KeyWords from './../../../entities/article/ui/KeyWords';
+import { editArticle } from "../../../pages/Sandbox/api/requests";
 //----state---
 const initialState = {
   id:"",
@@ -50,7 +51,7 @@ const initialState = {
     {
       id: 5,
       name: "Загрузить изображение",
-      type: "img_upload",
+      type: "img_load",
        value:""
     }
   ],
@@ -60,6 +61,7 @@ const initialState = {
   },
   status: "idle",
   previewStatus:'idle',
+  editStatus:'idle',
   templateStatus:'idle',
   error: null,
 };
@@ -159,14 +161,28 @@ const sandboxSlice = createSlice({
       })
       .addCase(deleteArticlePart.fulfilled, (state, action) => {
         state.templateStatus = "succeeded";
-        const { created } = action.payload
-        state.list = state.list.filter(item=>item.created!==created)
+        const  id  = action.payload
+        state.list = state.list.filter(item=>item.uuid!==id)
       })
       .addCase(deleteArticlePart.rejected, (state, action) => {
         state.templateStatus = "failed";
         state.error = action.error.message;
       })
     //----------------------------------------
+        //---удаление картинки статьи-------------
+        .addCase(deleteArticlePartImage.pending, (state, action) => {
+          state.templateStatus = "loading";
+        })
+        .addCase(deleteArticlePartImage.fulfilled, (state, action) => {
+          state.templateStatus = "succeeded";
+          const id = action.payload
+          state.list = state.list.filter(item=>item.uuid!==id)
+        })
+        .addCase(deleteArticlePartImage.rejected, (state, action) => {
+          state.templateStatus = "failed";
+          state.error = action.error.message;
+        })
+      //----------------------------------------
        //---создание части статьи-------------
        .addCase(createArticlepart.pending, (state, action) => {
         state.templateStatus = "loading";
@@ -212,8 +228,20 @@ const sandboxSlice = createSlice({
         .addCase(deletePreview.rejected, (state, action) => {
           state.previewStatus = "failed";
           state.error = action.error.message;
-        });
+        })
         //-------------------------------------------
+        //--------редактировать статью-----------
+        .addCase(editArticle.pending, (state, action) => {
+        state.editStatus = "loading";
+      })
+      .addCase(editArticle.fulfilled, (state, action) => {
+        state.editStatus = "succeeded";
+      })
+      .addCase(editArticle.rejected, (state, action) => {
+        state.editStatus = "failed";
+        state.error = action.error.message;
+      });
+      //-------------------------------------------
 
   },
 });
@@ -254,7 +282,7 @@ export function getSandboxComponents(state) {
   }
 
   export function isPresent(state) {
-    return isHeaderPresent(state) && state[DomainNames.sandbox].list.length!=0 && state[DomainNames.sandbox].list[0].value.length!=0;
+    return isHeaderPresent(state) && state[DomainNames.sandbox].list.length!=0
   }
 
 export const { saveItem,delItem,saveTheme,setKeywords,resetSandBox,setHub, saveAllItems,setId,setPreviewId } = sandboxSlice.actions;

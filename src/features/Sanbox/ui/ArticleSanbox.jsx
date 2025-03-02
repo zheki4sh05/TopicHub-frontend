@@ -25,7 +25,7 @@ function ArticleSanbox() {
       case "chapter": {
         return <ChapterEdit item={item} key={item.created} />;
       }
-      case "img_upload":{
+      case "img_load":{
         return <ImageUploadEdit item={item} key={item.created}/>
       }
     }

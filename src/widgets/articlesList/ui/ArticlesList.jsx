@@ -2,12 +2,16 @@ import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import statusTypes from "../../../app/util/statusTypes";
 import Article from "../../../features/Article/ui/Article";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
 
 function ArticlesList({ status, batch, makeRequest, edit = false }) {
   const { t } = useTranslation();
+
   return (
     <Box sx={{ margin: "20px 0 20px 0" }}>
+
+
       {status == statusTypes.loading ? (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
@@ -35,7 +39,7 @@ function ArticlesList({ status, batch, makeRequest, edit = false }) {
           <Button
             sx={{ marginLeft: "15px" }}
             variant="outlined"
-            onClick={() => makeRequest(1)}
+            onClick={makeRequest}
           >
             {t('btn_repeat')}
           </Button>

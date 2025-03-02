@@ -27,6 +27,8 @@
   "txt_filter_2": "By rating",
   "txt_error_http": "Loading error!",
   "txt_warning_articles": "You have no publications. Go to the topic creation section",
+  "txt_warning_articles_mod":"You have no articles on moderation.",
+  "txt_warning_articles_edit":"you have no articles to edit",
   "txt_bookmark": "Bookmarks",
   "txt_welcome": "Welcome",
   "txt_at_first": "First time on the forum?",

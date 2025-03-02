@@ -51,7 +51,6 @@ function SaveArticle({ action }) {
   };
 
   useEffect(() => {
-    console.log(sandboxStatus)
     if (sandboxStatus == statusTypes.loading) {
       handleOpen();
     } else if (sandboxStatus == statusTypes.succeeded) {
@@ -66,21 +65,27 @@ function SaveArticle({ action }) {
 
   const isHeader = useSelector(isHeaderPresent)
 
+  const request=()=>{
+    dispatch(updateArticle({
+      id,
+      theme,
+      keyWords: keyWords.map((word) => word.name),
+      hub,
+     }))
+     setEdit(false)
+  }
+
   
   function sendRequestPerSeconds() {
  
     setTimeout(function() {
   
-       dispatch(updateArticle({
-        id,
-        theme,
-        keyWords: keyWords.map((word) => word.name),
-        hub,
-       }))
-       setEdit(false)
+      request()
+       
     }, 5000); 
 }
 useEffect(()=>{
+
   if(isHeader && isEdit){
     sendRequestPerSeconds()
  }
@@ -95,13 +100,17 @@ useEffect(()=>{
 
   return (
     <>
+      <Button disabled={!isEdit || !isHeader} onClick={request}> 
+        Сохранить
+      </Button>
+
       <Button
         variant="contained"
         disabled={!empty}
         onClick={handleSave}
         sx={{ marginBottom: "20px" }}
       >
-        Опубликовать
+        Отправить на модерацию
       </Button>
 
       <Backdrop

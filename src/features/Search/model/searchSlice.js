@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import DomainNames from "../../../app/store/DomainNames";
-import { searchImageRequest, searchRequest } from "../api/request";
+import { fetchImagesPage, searchImageRequest, searchRequest } from "../api/request";
 
 
 //----state---
@@ -82,6 +82,20 @@ const searchSlice = createSlice({
       state.error=null
     })
     .addCase(searchImageRequest.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    })
+    //----------------------------------------
+      //---запрос картинок-------------
+      .addCase(fetchImagesPage.pending, (state, action) => {
+      state.status = "loading";
+    })
+    .addCase(fetchImagesPage.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.images = action.payload
+      state.error=null
+    })
+    .addCase(fetchImagesPage.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     })

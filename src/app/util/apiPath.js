@@ -1,5 +1,7 @@
 const BACKEND_HOST = import.meta.env.VITE_APP_BACKEND_ADDRESS
+const IMAGE_BACKEND_HOST = import.meta.env.VITE_APP_BACKEND_IMAGE
 const  base="http://"+BACKEND_HOST+"/api/v1/";
+const imageService = "http://"+IMAGE_BACKEND_HOST+"/api/v1/"
 const api={
     token:{
         url:base.concat("auth/refresh"),
@@ -37,6 +39,7 @@ const api={
         preview:"/preview",
         img:"/image",
         update:"/update",
+        edit:"/edit",
         publish:""
     },
     search:{
@@ -62,7 +65,7 @@ const api={
     },
     image:{
         url:base.concat("image"),
-        search:"/search"
+        search:"/search",
     },
     authors:{
         url:base.concat("authors"),
@@ -73,6 +76,10 @@ const api={
     articles:{
         url:base.concat("admin"),
     },
+    images:{
+        url:imageService.concat("image"),
+        list:"/list"
+    }
 
 
     

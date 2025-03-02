@@ -39,7 +39,7 @@ function ImageEdit({ item }) {
   };
 
   const handlerAgree = () => {
-    dispatch(delItem({ created: item.created }));
+    // dispatch(delItem({ created: item.created }));
      dispatch(deleteArticlePart({
           articleId:id,
           partId:item.uuid

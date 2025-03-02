@@ -76,12 +76,14 @@ class ApiRequestCreator {
     }
   }
 
+  
   createPatchRequest(uri) {
     
     return createAsyncThunk(this.domainName.concat(uri), async (initial, thunkAPI) => {
+ 
       const response = await api.patch(
         this.url.concat(uri),
-        initial.data,
+        initial,
         getRequestConfig(thunkAPI.getState().settings.activeLanguage)
       );
       return response.data;

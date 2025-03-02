@@ -72,7 +72,7 @@ function CreateArticle() {
     
     auth={auth}
     actionHandler={saveHandler}
-    
+    title={"Создание статьи"}
     />
   );
 }

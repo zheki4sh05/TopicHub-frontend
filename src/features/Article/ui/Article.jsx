@@ -29,6 +29,7 @@ import ModalCreation from "./../../../shared/Complaint/ui/ModalCreation";
 import { useTranslation } from "react-i18next";
 import { getActiveLanguage } from "../../../processes/header/model/settingsSlice";
 import { fetchHubs } from "../../../pages/Article/api/requests";
+import Img from "../../../shared/Img/ui/Img";
 function Article({ item = {}, mode, edit = false, handleDelete, handleEdit }) {
   const { t } = useTranslation();
   const lang = useSelector(getActiveLanguage);
@@ -84,6 +85,16 @@ function Article({ item = {}, mode, edit = false, handleDelete, handleEdit }) {
             {item.value}
           </Typography>
         );
+      }
+      case "img_load":{
+        return (
+          <Img
+          
+          id={item.value}
+          fileName={"img"}
+          
+          />
+        )
       }
     }
   };

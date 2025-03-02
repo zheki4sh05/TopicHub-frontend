@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   LinearProgress,
   Pagination,
   Stack,
@@ -9,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   cleareSearch,
+  getSearchImageOptions,
   getSearchImageResult,
   getSearchStatus,
 } from "../../../features/Search/model/searchSlice";
@@ -22,6 +24,7 @@ import { useNavigate } from "react-router";
 import { PathConstants } from "../../../app/pathConstants";
 import SectionHeader from "../../../shared/SectionHeader/ui/SectionHeader";
 import { useTranslation } from "react-i18next";
+import { fetchImagesPage } from "../../../features/Search/api/request";
 
 function Posts() {
   const pageResponse = useSelector(getSearchImageResult);
@@ -29,9 +32,13 @@ function Posts() {
   const articleStatus = useSelector(getFindStatus);
   const navigate = useNavigate();
   const searchStatus = useSelector(getSearchStatus);
+      const image = useSelector(getSearchImageOptions);
   const { t } = useTranslation();
-  const handlePageChange = () => {
-    dispatch();
+
+  const handlePageChange = (event, page) => {
+    dispatch(fetchImagesPage({
+      page:page
+    }));
   };
 
   const handleShow = (id) => {
@@ -43,10 +50,23 @@ function Posts() {
       navigate(PathConstants.VIEW);
     }
   }, [articleStatus]);
+  const fetchImages=(page)=>{
+    dispatch(fetchImagesPage({
+      page:page
+    }))
+  }
 
   const handleReset = () => {
     dispatch(cleareSearch());
+    fetchImages(1)
   };
+
+
+
+  useEffect(()=>{
+   
+    fetchImages(1)
+  },[])
 
   return (
     <>
@@ -63,10 +83,14 @@ function Posts() {
             variant="outlined"
             color="secondary"
             onClick={handleReset}
-            disabled={pageResponse.items.length == 0}
+            disabled={image.name.length==0}
           >
             Сбросить
           </Button>
+          {articleStatus==statusTypes.loading ??
+            <CircularProgress/>
+          }
+          
         </SectionHeader>
         <Box sx={{ marginBottom: "5px" }}></Box>
         {pageResponse.items.length == 0 && searchStatus == statusTypes.idle ? (
@@ -87,7 +111,7 @@ function Posts() {
             : (
               <>
                 {pageResponse.items.length > 0 ? (
-                  <Stack direction="row">
+                  <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
                     {pageResponse.items.map((item) => (
                       <PostCard
                         image={item}
