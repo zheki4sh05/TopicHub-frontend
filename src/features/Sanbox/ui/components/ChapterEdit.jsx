@@ -16,7 +16,7 @@ function ChapterEdit({ item }) {
   const [state, setState] = useState(item.value);
   const id = useSelector(getSandboxId)
   const handleSave = () => {
-    const part = { ...item, value: state }
+    const part = { ...item, value: state, articleId:id }
     // dispatch(saveItem({ ...item, value: state }));
     setSave(true);
     dispatch(createArticlepart(part))

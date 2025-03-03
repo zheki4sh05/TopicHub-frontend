@@ -16,7 +16,6 @@ import Img from "../../../../shared/Img/ui/Img";
 import ConfirmModal from "../../../../shared/ConfirmModal/ui/ConfirmModal";
 function ArticlePreview() {
     const {t} = useTranslation()
-    const theme  = useSelector(getTheme)
     const dispatch = useDispatch();
     const metaData = useSelector(getMetaData)
     const [save, setSave] = useState(metaData.metaName.length>0);
@@ -113,7 +112,7 @@ function ArticlePreview() {
         size="300"
         urlGet={""}
         urlPost={api.sandbox.url.concat(api.sandbox.preview)}
-        params={{name:state}}
+        params={{name:state, id: id+""}}
         handleLoadData={handleLoadMetaData}
         />
               <Grid2 size={10}>
@@ -124,9 +123,9 @@ function ArticlePreview() {
         ) : (
           <TextField
             id="standard-multiline-static"
-            label={t('input_p')}
+            label={t('input_preview')}
             multiline
-            defaultValue={""}
+            defaultValue={state}
             variant="standard"
             value={state}
             sx={{ width: "100%" }}

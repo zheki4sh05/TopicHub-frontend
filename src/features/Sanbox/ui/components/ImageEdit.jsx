@@ -16,7 +16,8 @@ function ImageEdit({ item }) {
   const [state, setState] = useState(item.value);
   const { t } = useTranslation();
   const handleSave = () => {
-       const part = { ...item, value: state }
+    const part = { ...item, value: state, articleId:id }
+  
        
        // dispatch(saveItem(part));
        setSave(true);

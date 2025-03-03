@@ -99,10 +99,16 @@ function UserArticles({ edit }) {
 
   return (
     <>
+    {edit? 
     <SelectArticleStatus
     
     handleChangeValue={changeArticleStatus}
           />
+          :
+          null
+  
+  }
+    
       {articles.items.length > 0 ? (
         <Stack direction={"column"}>
           
@@ -135,16 +141,7 @@ function UserArticles({ edit }) {
       ) : status == statusTypes.loading ? (
         <LinearProgress />
       ) : 
-      // (
-      //   <>
-      //     {
-            
-      //     }
-      //     <Typography>
-      //      {t('txt_warning_articles')}
-      //     </Typography>
-      //   </>
-      // )
+   
       getEmptyMsg(statusArticle)
       
       }

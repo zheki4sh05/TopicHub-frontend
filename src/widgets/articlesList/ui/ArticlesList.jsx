@@ -22,7 +22,6 @@ function ArticlesList({ status, batch, makeRequest, edit = false }) {
             {batch.items.map((item) => (
               <Box key={item.id} sx={{ marginBottom: "10px" }}>
                 <Article
-                  key={item.id}
                   item={item}
                   mode={statusTypes.short}
                   edit={edit}

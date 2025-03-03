@@ -87,8 +87,10 @@ function Posts() {
           >
             Сбросить
           </Button>
-          {articleStatus==statusTypes.loading ??
+          {articleStatus==statusTypes.loading ?
             <CircularProgress/>
+            :
+            null
           }
           
         </SectionHeader>

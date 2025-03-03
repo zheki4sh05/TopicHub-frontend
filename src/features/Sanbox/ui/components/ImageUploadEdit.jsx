@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { useDispatch } from "react-redux";
-import { delItem, saveItem } from "../../model/sandboxSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { delItem, getSandboxId, saveItem } from "../../model/sandboxSlice";
 
 import { Box, Grid2, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,9 +13,9 @@ import Img from "../../../../shared/Img/ui/Img";
 function ImageUploadEdit({ item }) {
   const dispatch = useDispatch();
   const [state, setState] = useState();
-
+  const id = useSelector(getSandboxId)
   const addItem = (id) => {
-    const part = { ...item, uuid: id };
+    const part = { ...item, uuid: id,  articleId:id };
     dispatch(delItem({ created: item.created }));
     dispatch(saveItem(part));
   };
@@ -46,6 +46,7 @@ function ImageUploadEdit({ item }) {
           urlGet={item.value}
           urlPost={api.sandbox.url.concat(api.sandbox.img)}
           handleLoadData={addItem}
+          params={{id:id}}
         />
       )}
 

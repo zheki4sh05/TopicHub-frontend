@@ -17,7 +17,7 @@ function ParagraphEdit({ item }) {
   const id = useSelector(getSandboxId)
 
   const handleSave = () => {
-    const part = { ...item, value: state }
+    const part = { ...item, value: state, articleId:id }
 
     // dispatch(saveItem(part));
     setSave(true);

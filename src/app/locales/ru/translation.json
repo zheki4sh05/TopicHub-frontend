@@ -63,6 +63,7 @@
     "message_email":"Почта",
     "message_login":"Логин",
     "input_p": "Абзац",
+    "input_preview":"Название превью",
     "input_il": "Ссылка на изображение",
     "input_title": "Заголовок",
     "input_description": "Заголовок",

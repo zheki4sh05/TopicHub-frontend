@@ -43,10 +43,10 @@ function SaveArticle({ action }) {
   const handleSave = () => {
     action({
       id,
-      theme,
-      keyWords: keyWords.map((word) => word.name),
-      list,
-      hub: hub,
+      theme:"",
+      keyWords: [],
+      list:[],
+      hub: 0,
     });
   };
 

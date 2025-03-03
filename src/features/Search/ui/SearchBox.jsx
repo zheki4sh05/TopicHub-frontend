@@ -24,11 +24,13 @@ function SearchBox() {
 
   const makeRequest=(data)=>{
     if(!empty){
-      const obj = {
-        value:data.name,
+      const obj= {
+        theme:data.theme,
+        keywords:data.keywords,
+        author:data.author
       }
-
-      dispatch(searchRequest( auth ? { ...obj,user:user.id} : {...obj} ));
+      if(auth) obj.user = user.id
+      dispatch(searchRequest(obj));
       handleClose()
       navigate(PathConstants.SEARCH)
     }
