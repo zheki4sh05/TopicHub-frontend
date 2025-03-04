@@ -3,8 +3,9 @@ WORKDIR /app
 COPY . .
 ARG VITE_APP_BACKEND_ADDRESS
 ENV VITE_APP_BACKEND_ADDRESS $VITE_APP_BACKEND_ADDRESS
+ENV PORT 5000
 RUN npm install
 RUN npm run build
 RUN npm install -g serve
-CMD ["serve", "-s", "dist"]
-EXPOSE 3000
+CMD ["sh", "-c", "serve -s dist -l ${PORT}"]
+EXPOSE 5000
