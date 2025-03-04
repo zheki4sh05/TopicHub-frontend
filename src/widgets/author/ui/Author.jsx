@@ -8,65 +8,25 @@ import addParams from "../../../app/util/paramsConfig";
 import { Link, useNavigate } from "react-router";
 import { PathConstants } from "../../../app/pathConstants";
 import { useDispatch, useSelector } from "react-redux";
-import { getToken, setActiveUser } from "../../../pages/Profile/model/userSlice";
+import {
+  getToken,
+  setActiveUser,
+  setLogoId,
+} from "../../../pages/Profile/model/userSlice";
+import Img from "../../../shared/Img/ui/Img";
+import ImageUpload from "../../../shared/ImageUpload/ui/ImageUpload";
 
 function Author({ user, edit = false, size = 100 }) {
-  const navigate = useNavigate()
-  const [imageData, setImageData] = useState(null);
-  const [input, setInput] = useState(false);
-  const dispatch = useDispatch()
-  const token = useSelector(getToken)
-  const handleGetImage = async () => {
-    try {
-      const response = await axios.get(
-        api.image.url.concat(addParams({ id: user.logoId })),
-        getRequestImageConfig()
-      );
-
-      const imageBlob = new Blob([response.data], { type: "image/*" });
-      const imageObjectURL = URL.createObjectURL(imageBlob);
-      setImageData(imageObjectURL);
-    } catch (error) {}
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+    const setUser = (event) => {
+    dispatch(setActiveUser(user));
+    navigate(PathConstants.PROFILE);
   };
 
-  useEffect(() => {
-    handleGetImage();
-  }, []);
-
-  const handleLoadImage = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", imageData);
-    console.log()
-    try {
-      const response = await axios.post(
-        api.profile.url,
-        formData,
-        getRequestImageConfig(token)
-      );
-      const imageBlob = new Blob([response.data], { type: "image/*" });
-      const imageObjectURL = URL.createObjectURL(imageBlob);
-
-      setImageData(imageObjectURL);
-    } catch (imageData) {}
-  };
-
-  const handleFileChange = (event) => {
-    setInput(true);
-    const file = event.target.files[0];
-    if (file) {
-      setImageData(file);
-    }
-  
- 
-  };
-
-  const setUser=(event)=>{
-   
-    dispatch(setActiveUser(user))
-    navigate(PathConstants.PROFILE)
+  const handleSaveLogoId=(image)=>{
+    dispatch(setLogoId(JSON.parse(image)))
   }
-
   return (
     <>
       <Box onClick={setUser}>
@@ -76,43 +36,39 @@ function Author({ user, edit = false, size = 100 }) {
             flexDirection: "row",
             gap: "10px",
             alignItems: "center",
-
           }}
         >
-          {imageData ? (
-            <img
-              src={imageData}
-              alt="Аватар"
+          {user.logoId && user.logoId.length!=0 ? (
+            <Box
               style={{
                 width: size + "px",
                 height: size + "px",
                 objectFit: "cover",
                 borderRadius: "100%",
+                overflow:"hidden"
               }}
-            />
+            >
+              <Img id={user.logoId} fileName={"Аватар"} />
+            </Box>
           ) : (
             <Skeleton variant="circular" width={size} height={size} />
           )}
 
-          <Typography variant="h6" sx={{textDecoration:"underline"}} >{user.login}</Typography>
+          <Typography variant="h6" sx={{ textDecoration: "underline" }}>
+            {user.login}
+          </Typography>
         </Box>
       </Box>
 
       {edit ? (
         <Box sx={{ marginLeft: "20px" }}>
-          <form onSubmit={handleLoadImage}>
-            <input
-              type="file"
-              accept="image/jpeg, image/png"
-              onChange={handleFileChange}
-            />
 
-            {input ? (
-              <Button size="small" type="submit">
-                Изменить аватар
-              </Button>
-            ) : null}
-          </form>
+        
+          <ImageUpload
+            title="Изменить аватар"
+            urlPost={api.profile.url.concat(api.profile.logo)}
+            handleLoadData={handleSaveLogoId}
+          />
         </Box>
       ) : null}
     </>

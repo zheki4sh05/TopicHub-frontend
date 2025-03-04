@@ -21,6 +21,7 @@ function UserSubscribers({ edit }) {
     dispatch(
       fetchUserSubscriptions({
         type: "subscribes",
+        page:1
       })
     );
   };

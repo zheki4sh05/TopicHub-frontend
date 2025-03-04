@@ -27,6 +27,7 @@ const api={
     },
     profile:{
         url:base.concat("profile"),
+        logo:"/logo",
         articles:""
 
     },

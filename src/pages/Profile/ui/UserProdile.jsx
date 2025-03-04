@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import { PathConstants } from "../../../app/pathConstants";
 import Author from "../../../widgets/author/ui/Author";
 import statusTypes from "../../../app/util/statusTypes";
+import { logout } from "../../../features/Logout/api/request";
+import { deleteTokens } from "../../../app/util/localstorageApi";
 
 function UserProfile({ edit }) {
     const navigate = useNavigate()
@@ -26,6 +28,12 @@ function UserProfile({ edit }) {
     },
   });
 
+   const handleClickLogout=()=>{
+          dispatch(logout())
+          deleteTokens()
+          navigate(PathConstants.LOGIN)
+      }
+
   const onSubmit = (data) => {
 
     if(data.email.trim()=="" || data.login.trim()==""){
@@ -38,6 +46,8 @@ function UserProfile({ edit }) {
                 password:111111
             }
         ))
+        handleClickLogout()
+
     
     }
 

@@ -10,7 +10,8 @@ const base = {
   id:0,
   login:"",
   email:"",
-  password:""
+  password:"",
+  logoId:""
 }
 
 
@@ -37,8 +38,8 @@ const initialState = {
   },
   token:"no",
   refresh:"no",
-  subscribes:[],
-  followers:[],
+  subscribes:{items:[]},
+  followers:{items:[]},
   others:{},
   status: "idle",
   statusLogout:"idle",
@@ -87,7 +88,10 @@ const userSlice = createSlice({
     },
     clearUserError(state,action){
       state.error=null
-    }
+    },
+    setLogoId(state,action){
+      state.user.logoId = action.payload.id
+          }
   
     
   },
@@ -300,10 +304,10 @@ export function getUserError(state){
   return state[DomainNames.user].error;
 }
 export function getUserSubscribes(state){
-  return state[DomainNames.user].subscribes;
+  return state[DomainNames.user].subscribes.items;
 }
 export function getUserFollowers(state){
-  return state[DomainNames.user].followers;
+  return state[DomainNames.user].followers.items;
 }
 export function getToken(state){
   return state[DomainNames.user].token;
@@ -329,7 +333,8 @@ export const { controlUserStatus,
   setToken,
   setRefresh,
   clearUserError,
-  setAuth
+  setAuth,
+  setLogoId
 } = userSlice.actions;
 
 export default userSlice.reducer;

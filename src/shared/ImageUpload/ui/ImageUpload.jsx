@@ -15,11 +15,10 @@ function ImageUpload({
   handleLoadData,
   params = null,
 }) {
-  const navigate = useNavigate();
   const [imageData, setImageData] = useState(null);
  
   const [input, setInput] = useState(false);
-  const dispatch = useDispatch();
+
   const token = useSelector(getToken);
   const handleGetImage = async () => {
     try {
@@ -52,10 +51,6 @@ function ImageUpload({
         formData,
         getRequestImageConfig(token)
       );
-      // const imageBlob = new Blob([response.data], { type: "image/*" });
-      // const imageObjectURL = URL.createObjectURL(imageBlob);
-
-      // setImageData(imageObjectURL);
       handleLoadData(new TextDecoder().decode(response.data));
       return response.data;
     } catch (error) {
@@ -73,31 +68,7 @@ function ImageUpload({
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "10px",
-          alignItems: "center",
-        }}
-      >
-        {/* {imageData ? (
-              <img
-                src={imageData}
-                alt={alt}
-                style={{
-                  width: size + "px",
-                  height: size + "px",
-                  objectFit: "cover",
-                  borderRadius: "100%",
-                }}
-              />
-            ) : (
-              <Skeleton variant="circular" width={size} height={size} />
-            )} */}
-      </Box>
-
+    
       <Box sx={{ marginLeft: "20px" }}>
         <form onSubmit={handleLoadImage}>
           <input
@@ -113,7 +84,7 @@ function ImageUpload({
           ) : null}
         </form>
       </Box>
-    </>
+    
   );
 }
 

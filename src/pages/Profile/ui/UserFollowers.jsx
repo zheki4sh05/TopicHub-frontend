@@ -21,6 +21,7 @@ function UserFollowers({edit}) {
       dispatch(
         fetchUserFollowers({
           type: "followers",
+          page:1
         })
       );
     };
