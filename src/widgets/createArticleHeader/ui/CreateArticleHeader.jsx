@@ -5,10 +5,11 @@ import {getSandboxId, isHeaderPresent, isPresent, resetSandBox } from "../../../
 import ConfirmModal from "../../../shared/ConfirmModal/ui/ConfirmModal";
 import { clearTemplate } from "../api/request";
 import ClearSandbox from "../../../features/Sanbox/ui/components/ClearSandbox";
+import { useTranslation } from "react-i18next";
 
 
 function CreateArticleHeader({title}) {
-
+    const {t} = useTranslation()
     const [open,setOpen] = useState(false)
     const dispatch = useDispatch()
      const articleId = useSelector(getSandboxId)

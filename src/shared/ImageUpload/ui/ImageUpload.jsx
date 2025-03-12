@@ -73,7 +73,7 @@ function ImageUpload({
         <div>
        
             <Button>
-            <label for="files">
+            <label htmlFor="files">
             {t("chooseFile")}
           </label>
             </Button>
