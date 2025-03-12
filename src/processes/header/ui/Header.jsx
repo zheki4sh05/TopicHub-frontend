@@ -72,7 +72,7 @@ const Header  = memo(function Header() {
               to={{ pathname: PathConstants.POSTS }}
             >
               <Typography style={{ color: "white", textDecoration: "underline", marginLeft:"30px" }} >
-                Посты
+                {t('posts')}
               </Typography>
             </Link>
             

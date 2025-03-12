@@ -85,7 +85,8 @@ function Posts() {
             onClick={handleReset}
             disabled={image.name.length==0}
           >
-            Сбросить
+            {t("btn_reset")}
+            
           </Button>
           {articleStatus==statusTypes.loading ?
             <CircularProgress/>
@@ -97,7 +98,7 @@ function Posts() {
         <Box sx={{ marginBottom: "5px" }}></Box>
         {pageResponse.items.length == 0 && searchStatus == statusTypes.idle ? (
           <Typography>
-            Воспользуйтесь поиском изображений для нахождения нужной статьи
+            {t("txt_post_search_warning")}
           </Typography>
         ) : (
           <>

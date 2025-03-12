@@ -107,7 +107,7 @@ function ArticlePreview() {
 
         <ImageUpload
         
-        title="Загрузить превью статьи"
+        title={t('load_article_preview_btn')}
         alt={""}
         size="300"
         urlGet={""}

@@ -43,7 +43,7 @@ const initialState = {
   others:{},
   status: "idle",
   statusLogout:"idle",
-  auth:false,
+  auth:true,
   error: null,
 };
 //-------------
@@ -166,7 +166,7 @@ const userSlice = createSlice({
         .addCase(userData.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error;
-          state.auth = false
+          state.auth = true
         })
       //----------------------------------------
     //---выход-------------

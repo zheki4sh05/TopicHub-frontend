@@ -18,6 +18,7 @@ import { useNavigate } from "react-router";
 import { PathConstants } from "../../../../app/pathConstants";
 import { updateArticle } from "../../api/requests";
 import statusTypes from './../../../../app/util/statusTypes';
+import { useTranslation } from "react-i18next";
 
 function SaveArticle({ action }) {
 
@@ -27,7 +28,7 @@ function SaveArticle({ action }) {
   const id = useSelector(getSandboxId)
   const theme = useSelector(getTheme);
   const keyWords = useSelector(getSandboxWords);
-  const list = useSelector(getSandboxList);
+  const {t} = useTranslation()
   const hub = useSelector(getHub);
   const sandboxStatus = useSelector(getSandboxStatus);
   const [backDrop, setBackdrop] = useState(false);
@@ -101,7 +102,7 @@ useEffect(()=>{
   return (
     <>
       <Button disabled={!isEdit || !isHeader} onClick={request}> 
-        Сохранить
+        {t('btn_save')}
       </Button>
 
       <Button
@@ -110,7 +111,7 @@ useEffect(()=>{
         onClick={handleSave}
         sx={{ marginBottom: "20px" }}
       >
-        Отправить на модерацию
+         {t('btn_moderation')}
       </Button>
 
       <Backdrop

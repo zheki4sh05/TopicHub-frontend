@@ -8,13 +8,14 @@ import SelectHub from "../../hubs/ui/SelectHub";
 import { useDispatch, useSelector } from "react-redux";
 import { getTheme, saveTheme, setHub } from "../../../features/Sanbox/model/sandboxSlice";
 import { getUser } from "../../../pages/Profile/model/userSlice";
+import { useTranslation } from "react-i18next";
 
 function ArticleTheme() {
 
   const theme = useSelector(getTheme);
   const dispatch = useDispatch()
   const user  = useSelector(getUser)
-
+  const {t} = useTranslation()
   const handleHubChange = (value) => {
     dispatch(setHub(value))
   };
@@ -34,12 +35,12 @@ function ArticleTheme() {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           id="standard-basic"
-          label="Введите название темы"
+          label={t('enter_theme_name')}
           variant="standard"
           value={theme}
           onChange={(event) =>handleThemeChange(event.target.value)}
         />
-        <SelectHub handleChange={handleHubChange} />
+        <SelectHub titleSelect={t('select_hub')}  handleChange={handleHubChange} />
       </Box>
    
     </Box>

@@ -4,14 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {getSandboxId, isHeaderPresent, isPresent, resetSandBox } from "../../../features/Sanbox/model/sandboxSlice";
 import ConfirmModal from "../../../shared/ConfirmModal/ui/ConfirmModal";
 import { clearTemplate } from "../api/request";
+import ClearSandbox from "../../../features/Sanbox/ui/components/ClearSandbox";
 
 
 function CreateArticleHeader({title}) {
 
     const [open,setOpen] = useState(false)
     const dispatch = useDispatch()
-     const isSandboxPresent = useSelector(isPresent)
-     const headerPresent =  useSelector(isHeaderPresent)
      const articleId = useSelector(getSandboxId)
   const handleClear = () => {
 
@@ -38,21 +37,17 @@ function CreateArticleHeader({title}) {
         }}
       >
         <Typography variant="h6">{title}</Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          color="error"
-          onClick={handleClear}
-          disabled={!isSandboxPresent && !headerPresent}
-        >
-          Сбросить
-        </Button>
+        <ClearSandbox
+        
+        handleClear={handleClear}
+        
+        />
       </Box>
 
       <ConfirmModal
         show={open}
-        title={"Удаление шаблона статьи"}
-        body={"Вы действительно хотите удалить все?"}
+        title={t('txt_del_sandbox')}
+        body={t('txt_del_sandbox_warn')}
         data={{}}
         handlerAgree={handlerAgree}
         handlerDisagree={handlerDisagree}

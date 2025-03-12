@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import DomainNames from "../../../app/store/DomainNames";
 import { createArticle, createArticlepart, deleteArticlePart, deleteArticlePartImage, deletePreview, findPreview } from "../api/requests";
 import { createTemplate } from "../../../processes/api/request";
-import KeyWords from './../../../entities/article/ui/KeyWords';
 import { editArticle } from "../../../pages/Sandbox/api/requests";
 //----state---
 const initialState = {

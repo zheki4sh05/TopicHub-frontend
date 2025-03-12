@@ -22,7 +22,7 @@ function SandboxSelect() {
 
   return (
     <MainSelect
-      list={list}
+      list={list.map((item)=>{return {id:item.id, name: t(item.type)}})}
       title={t('select_title')}
       defaultValue={list[0].id}
       handleChange={handleChange}

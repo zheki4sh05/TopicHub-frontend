@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Skeleton } from "@mui/material";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { getToken } from "../../../pages/Profile/model/userSlice";
 import getRequestImageConfig from "../../../app/util/requestImageConfig";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 function ImageUpload({
   title,
@@ -16,7 +17,7 @@ function ImageUpload({
   params = null,
 }) {
   const [imageData, setImageData] = useState(null);
- 
+  const { t } = useTranslation();
   const [input, setInput] = useState(false);
 
   const token = useSelector(getToken);
@@ -42,7 +43,7 @@ function ImageUpload({
     formData.append("file", imageData);
     if (params != null) {
       Object.keys(params).forEach((key) => {
-        formData.append(key, params[key]); 
+        formData.append(key, params[key]);
       });
     }
     try {
@@ -61,30 +62,49 @@ function ImageUpload({
   const handleFileChange = (event) => {
     setInput(true);
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
       setImageData(file);
     }
   };
 
   return (
+    <Box sx={{ marginLeft: "20px" }}>
+      <form onSubmit={handleLoadImage}>
+        <div>
+       
+            <Button>
+            <label for="files">
+            {t("chooseFile")}
+          </label>
+            </Button>
+         
     
-      <Box sx={{ marginLeft: "20px" }}>
-        <form onSubmit={handleLoadImage}>
+          
+          <input
+          id="files"
+            type="file"
+            accept="image/jpeg, image/png"
+            onChange={handleFileChange}
+            style={{display:"none"}}
+          />
+        </div>
+        {/* <div>
           <input
             type="file"
             accept="image/jpeg, image/png"
             onChange={handleFileChange}
+            tex
           />
+          <label></label>
+        </div> */}
 
-          {input ? (
-            <Button size="small" type="submit">
-              {title}
-            </Button>
-          ) : null}
-        </form>
-      </Box>
-    
+        {input ? (
+          <Button size="small" type="submit">
+            {title}
+          </Button>
+        ) : null}
+      </form>
+    </Box>
   );
 }
 

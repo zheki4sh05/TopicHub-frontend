@@ -3,10 +3,11 @@ import { useForm, Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSandboxList, getSandboxWords, setKeywords } from "../../../features/Sanbox/model/sandboxSlice";
+import { useTranslation } from "react-i18next";
 
 function KeyWords() {
   const { handleSubmit, control, reset } = useForm();
- 
+  const {t} = useTranslation()
  const list = useSelector(getSandboxWords)
   const [error, setError] = useState({ show: false, message: "" });
   const dispatch = useDispatch()
@@ -37,7 +38,7 @@ function KeyWords() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
       <Typography variant="subtitle1" gutterBottom>
-        Ключевые слова
+        {t('key_words')}
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
         <Box
@@ -74,7 +75,7 @@ function KeyWords() {
                   <TextField
                     {...field}
                     id="standard-basic"
-                    label="Название"
+                    label={t('name')}
                     variant="standard"
                   />
                 )}
@@ -92,7 +93,7 @@ function KeyWords() {
             </Box>
 
             <Button sx={{ marginLeft: "5px" }} type="submit" variant="text">
-              Добавить
+              {t('btn_add')}
             </Button>
           </Box>
         </form>

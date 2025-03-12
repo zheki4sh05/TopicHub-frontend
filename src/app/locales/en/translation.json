@@ -11,6 +11,7 @@
   "btn_unsubscribe": "Unsubscribe",
   "btn_confirm": "Confirm",
   "btn_enter": "Enter",
+  "btn_moderation":"Submit for moderation",
   "btn_search": "Search",
   "btn_save": "Save",
   "btn_del": "Delete",
@@ -29,6 +30,9 @@
   "txt_warning_articles": "You have no publications. Go to the topic creation section",
   "txt_warning_articles_mod":"You have no articles on moderation.",
   "txt_warning_articles_edit":"you have no articles to edit",
+  "txt_post_search_warning":"Use image search to find the article you need",
+  "txt_del_sandbox":"Deleting an article template",
+  "txt_del_sandbox_warn":"Are you sure you want to delete everything?",
   "txt_bookmark": "Bookmarks",
   "txt_welcome": "Welcome",
   "txt_at_first": "First time on the forum?",
@@ -89,5 +93,20 @@
   "auth_warn4": "Login should contain only Latin letters and _",
   "auth_warn5": "Password should contain only Latin letters or digits and #!? ",
   "logout":"Logout",
-   "login":"login"
+   "login":"login",
+   "posts":"Posts",
+   "article_creation":"Article creation",
+    "enter_theme_name":"Enter theme name",
+    "select_hub":"Choouse hub",
+    "key_words":"Key words",
+    "name":"Name",
+    "load_article_preview_btn":"Upload article preview",
+    "chooseFile":"Choose file",
+    "part":"Part",
+    "paragraph":"Paragraph",
+    "chapter":"Chapter",
+    "img":"Image",
+    "img_load":"Upload image"
+
+
 }
