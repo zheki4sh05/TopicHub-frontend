@@ -8,11 +8,10 @@ import { searchImageRequest } from "../api/request";
 function SearchSimpleBox() {
     const dispatch = useDispatch()
     const image = useSelector(getSearchImageOptions);
-    const user = useSelector(getUser)
-    const auth = useSelector(isAuth)
     
   const handleSearch = (event) => {
     event.preventDefault()
+    console.log(image)
     dispatch(searchImageRequest({...image}));   
   };
     return ( 

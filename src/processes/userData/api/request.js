@@ -22,7 +22,7 @@ export async function refreshToken(token) {
         });
 
         if (!response.ok) {
-            console.error('Ошибка HTTP:', response.statusresponse.status);
+            console.error('Ошибка HTTP:', response);
         }
 
         const responseData = await response.json();
