@@ -47,7 +47,12 @@ class ApiRequestCreator {
           );
           return response.data;
         } catch (error) {
-          return thunkAPI.rejectWithValue({ error: error.response });
+          return thunkAPI.rejectWithValue({
+            
+            code: error.response.data.code,
+            message: error.response.data.message,
+            localDate: error.response.data.localDate,
+          });
         }
       }
     );

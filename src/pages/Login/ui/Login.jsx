@@ -63,9 +63,9 @@ function Login() {
         navigate(PathConstants.PROFILE);
       }
     } else if (status == statusTypes.failed) {
-      setOpen({ state: true, message: error.data.message, type: "error" });
+      setOpen({ state: true, message: error.message, type: "error" });
     }
-    dispatch(controlUserStatus(statusTypes.idle));
+    // dispatch(controlUserStatus(statusTypes.idle));
   }, [status]);
 
   const handleClose = (event, reason) => {

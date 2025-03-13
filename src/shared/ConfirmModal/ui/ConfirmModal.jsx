@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
+import { useTranslation } from 'react-i18next';
 
 const style = {
   position: 'absolute',
@@ -19,7 +20,7 @@ const style = {
 
 
 export default function ConfirmModal({show, title,body ,handlerAgree, handlerDisagree,data}) {
-
+  const {t} = useTranslation()
   return (
     <div>
     
@@ -36,8 +37,8 @@ export default function ConfirmModal({show, title,body ,handlerAgree, handlerDis
           </p>
 
           <Box  sx={{display:"flex",flexDirection:"row", justifyContent:"space-around"}} >
-          <Button onClick={handlerDisagree} color="secondary" >Отмена</Button>
-          <Button onClick={()=>handlerAgree(data.id)} color="error" >Выполнить</Button>
+          <Button onClick={handlerDisagree} color="secondary" >{t('btn_undo')}</Button>
+          <Button onClick={()=>handlerAgree(data.id)} color="error" >{t('btn_run')}</Button>
           </Box>
         
         </Box>

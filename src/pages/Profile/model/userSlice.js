@@ -132,7 +132,7 @@ const userSlice = createSlice({
     .addCase(signin.rejected, (state, action) => {
       state.status = "failed";
       state.auth = false;
-      state.error = action.error;
+      state.error = action.payload;
     })
   //----------------------------------------
       //---проверка cookies-------------

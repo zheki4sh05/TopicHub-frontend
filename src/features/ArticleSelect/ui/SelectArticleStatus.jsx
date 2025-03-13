@@ -1,22 +1,24 @@
+import { useTranslation } from "react-i18next";
 import statusTypes from "../../../app/util/statusTypes";
 import MainSelect from "../../../shared/Select/ui/MainSelect";
 
 function SelectArticleStatus({handleChangeValue}) {
+    const {t} = useTranslation()
 
     const statuses = [
         {
             id:1,
-            name:"На модерации",
+            name:t('on_moderation'),
             value:statusTypes.moderation,
         },
         {
             id:2,
-            name:"Редактирование",
+            name:t('on_edit'),
             value:statusTypes.edit,
         },
         {
         id:3,
-        name:"Опубликованы",
+        name:t('published'),
         value:statusTypes.publish
         }
     ]
