@@ -1,32 +1,26 @@
-import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import api from "../../../app/util/apiPath";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import getRequestConfig from "../../../app/util/requestConfig";
-import getRequestImageConfig from "./../../../app/util/requestImageConfig";
-import addParams from "../../../app/util/paramsConfig";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { PathConstants } from "../../../app/pathConstants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  getToken,
   setActiveUser,
   setLogoId,
 } from "../../../pages/Profile/model/userSlice";
 import Img from "../../../shared/Img/ui/Img";
 import ImageUpload from "../../../shared/ImageUpload/ui/ImageUpload";
-
+import defaultIcon from "../../../app/img/default.png";
 function Author({ user, edit = false, size = 100 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-    const setUser = (event) => {
+  const setUser = (event) => {
     dispatch(setActiveUser(user));
     navigate(PathConstants.PROFILE);
   };
 
-  const handleSaveLogoId=(image)=>{
-    dispatch(setLogoId(JSON.parse(image)))
-  }
+  const handleSaveLogoId = (image) => {
+    dispatch(setLogoId(JSON.parse(image)));
+  };
   return (
     <>
       <Box onClick={setUser}>
@@ -38,21 +32,23 @@ function Author({ user, edit = false, size = 100 }) {
             alignItems: "center",
           }}
         >
-          {user.logoId && user.logoId.length!=0 ? (
+          {
             <Box
               style={{
                 width: size + "px",
                 height: size + "px",
                 objectFit: "cover",
                 borderRadius: "100%",
-                overflow:"hidden"
+                overflow: "hidden",
               }}
             >
-              <Img id={user.logoId} fileName={"Аватар"} />
+              {user.logoId && user.logoId.length != 0 ? (
+                <Img id={user.logoId} fileName={"Аватар"} />
+              ) : (
+                <img src={defaultIcon} style={{width:"100%"}}/>
+              )}
             </Box>
-          ) : (
-            <Skeleton variant="circular" width={size} height={size} />
-          )}
+          }
 
           <Typography variant="h6" sx={{ textDecoration: "underline" }}>
             {user.login}
@@ -62,8 +58,6 @@ function Author({ user, edit = false, size = 100 }) {
 
       {edit ? (
         <Box sx={{ marginLeft: "20px" }}>
-
-        
           <ImageUpload
             title="Изменить аватар"
             urlPost={api.profile.url.concat(api.profile.logo)}
