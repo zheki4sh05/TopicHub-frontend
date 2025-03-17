@@ -66,6 +66,7 @@
   "message_lang": "Language",
   "message_email": "Email",
   "message_login": "Login",
+  "message_load_error":"Image loading error",
   "input_p": "Paragraph",
   "input_preview":"Img Preview name",
   "input_il": "Image link",

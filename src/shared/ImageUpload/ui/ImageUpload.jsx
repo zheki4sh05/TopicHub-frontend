@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Skeleton, Typography } from "@mui/material";
+import { Alert, Box, Button, Skeleton, Snackbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { getToken } from "../../../pages/Profile/model/userSlice";
 import getRequestImageConfig from "../../../app/util/requestImageConfig";
@@ -19,7 +19,7 @@ function ImageUpload({
   const [imageData, setImageData] = useState(null);
   const { t } = useTranslation();
   const [input, setInput] = useState(false);
-
+ const [open, setOpen] = useState({ state: false, message: "" });
   const token = useSelector(getToken);
   const handleGetImage = async () => {
     try {
@@ -55,7 +55,13 @@ function ImageUpload({
       handleLoadData(new TextDecoder().decode(response.data));
       return response.data;
     } catch (error) {
-      console.log(error);
+     
+   
+    setOpen({
+        state: true,
+        message: t('message_load_error'),
+        type: "error",
+      });
     }
   };
 
@@ -67,7 +73,18 @@ function ImageUpload({
     }
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen({ state: false, message: "", type: "" });
+    // dispatch(clearUserError())
+  };
+
   return (
+    <>
+    
     <Box sx={{ marginLeft: "20px" }}>
       <form onSubmit={handleLoadImage}>
         <div>
@@ -105,6 +122,19 @@ function ImageUpload({
         ) : null}
       </form>
     </Box>
+    
+       <Snackbar open={open.state} autoHideDuration={6000} onClose={handleClose}>
+            <Alert
+              onClose={handleClose}
+              severity={open.type}
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {open.message}
+            </Alert>
+          </Snackbar>
+    </>
+    
   );
 }
 

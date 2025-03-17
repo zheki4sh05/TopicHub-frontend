@@ -108,7 +108,7 @@ const userSlice = createSlice({
       .addCase(signup.rejected, (state, action) => {
         state.status = "failed";
       
-        state.error = action.payload.error;
+        state.error = action.payload;
     
       
       })

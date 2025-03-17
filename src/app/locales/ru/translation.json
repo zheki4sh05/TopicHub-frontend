@@ -68,6 +68,7 @@
     "message_lang": "Язык",
     "message_email":"Почта",
     "message_login":"Логин",
+    "message_load_error":"Не удалось загрузить изображение",
     "input_p": "Абзац",
     "input_preview":"Название превью",
     "input_il": "Ссылка на изображение",
